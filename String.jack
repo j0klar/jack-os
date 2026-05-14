@@ -66,25 +66,45 @@ class String {
      *  until a non-digit character is detected. */
     method int intValue() {
         var int val, i, digit;
+        var boolean neg;
         let val = 0;
         let i = 0;
+        let neg = false;
+        if (length > 0) {
+            if (str[0] = 45) {
+                let neg = true;
+                let i = 1;
+            }
+        }
         while (i < length) {
             let digit = str[i] - 48;
             let val = (val * 10) + digit;
             let i = i + 1;
+        }
+        if (neg) {
+            return -val;
         }
         return val;
     }
 
     /** Sets this string to hold a representation of the given value. */
     method void setInt(int val) {
+        let length = 0;
+        if (val < 0) {
+            do appendChar(45);
+            let val = -val;
+        }
+        do recurse(val);
+        return;
+    }
+    
+    // Helper: handles recursive int-to-string conversion
+    method void recurse(int val) {
         var int lastDigit, chr;
         let lastDigit = val - ((val / 10) * 10);
         let chr = lastDigit + 48;
-        if (val < 10) {
-            let length = 0;
-        } else {
-            do setInt(val / 10);
+        if (val > 9) {
+            do recurse(val / 10);
         }
         do appendChar(chr);
         return;
