@@ -25,7 +25,11 @@ class Screen {
 
     /** Erases the entire screen. */
     function void clearScreen() {
-        do drawRectangle(0, 0, 511, 255);
+        var boolean oldCol;
+        let oldCol = color;
+        let color = false;
+        do Screen.drawRectangle(0, 0, 511, 255);
+        let color = oldCol;
         return;
     }
 
@@ -39,9 +43,10 @@ class Screen {
     /** Draws the (x,y) pixel, using the current color. */
     function void drawPixel(int x, int y) {
         var int addr, word, bit;
-        let addr = 16384 + (y * 32) + (x / 16);
+        let xOver16 = x / 16;
+        let addr = 16384 + (y * 32) + xOver16;
         let word = Memory.peek(addr);
-        let bit = powersOfTwo[(x - ((x / 16) * 16))];
+        let bit = powersOfTwo[(x - (xOver16 * 16))];
         if (color) {
             let word = word | bit;
         } else {
