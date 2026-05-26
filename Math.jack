@@ -30,11 +30,18 @@ class Math {
      *  in an expression, it handles it by invoking this method. 
      *  Thus, in Jack, x * y and Math.multiply(x,y) return the same value. */
     function int multiply(int x, int y) {
-        var int sum, xShift, i;
+        var int sum, xShift, i, absY;
         let sum = 0;
         let xShift = x;
         let i = 0;
+        let absY = y;
+        if (y < 0) {
+            let absY = -y;
+        }
         while (i < n) {
+            if (powersOfTwo[i] > absY) {
+                return sum;
+            }
             if (Math.bit(y, i)) {
                 let sum = sum + xShift;
             }

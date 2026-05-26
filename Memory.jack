@@ -35,7 +35,8 @@ class Memory {
         while (ram[next + 1] < (size + 2)) {
             let next = ram[next];
             if (next = 0) {
-                return Sys.error(1);
+                do Sys.error(1);
+                return;
             }
         }
         let block = next + 2 + ram[next + 1] - size;
